@@ -10,9 +10,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, useClerk, useUser } from "@clerk/nextjs";
+import { ArrowLeftFromLine } from "lucide-react";
 export const AfterAuthButton = () => {
   const { user } = useUser();
+  const { openUserProfile } = useClerk();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -29,7 +31,7 @@ export const AfterAuthButton = () => {
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => openUserProfile()}>
             Profile
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -49,7 +51,10 @@ export const AfterAuthButton = () => {
 
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <SignOutButton redirectUrl="/">Log out</SignOutButton>
+          <ArrowLeftFromLine />
+          <SignOutButton redirectUrl="/">
+            <span className="cursor-pointer">Log out</span>
+          </SignOutButton>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
